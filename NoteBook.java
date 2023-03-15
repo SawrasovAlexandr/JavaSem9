@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -12,21 +13,24 @@ public class NoteBook {
     1. По возрастанию цены
     2. По убыванию цены
     3. По оперативке по убыванию. Если оперативки равны - по убыванию цены.
-    4.+ придумать свои параметры и отсортировать по ним 
 */
     
     public static void main(String[] args) {
         Random r = new Random();
         List<NoteBook> notebooks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            notebooks.add(new NoteBook(r.nextInt(30000, 100000), r.nextInt(4, 33)));
+            notebooks.add(new NoteBook(r.nextInt(30000, 100000), r.nextInt(4, 17)));
         }
         PriceComparator priceComparator = new PriceComparator();
         RamComparator ramComparator = new RamComparator();
         System.out.println(notebooks);
         notebooks.sort(priceComparator);
         System.out.println(notebooks);
-        notebooks.
+        Collections.reverse(notebooks);
+        System.out.println(notebooks);
+        notebooks.sort(ramComparator);
+        System.out.println(notebooks);
+
     }
     private int price;
     private int ram;
@@ -45,16 +49,16 @@ public class NoteBook {
     static class PriceComparator implements Comparator<NoteBook>{
         @Override
         public int compare(NoteBook o1, NoteBook o2) {
-            if (o1.price < o2.price) return -1;
-            else if (o1.price > o2.price) return 1;
-            else return 0;
+            return o1.price - o2.price;
         }
     }
 
     static class RamComparator implements Comparator<NoteBook>{
         @Override
         public int compare(NoteBook o1, NoteBook o2) {
-            return o1.ram - o2.ram;
+            if (o1.ram < o2.ram) return 1;
+            else if (o1.ram > o2.ram) return -1;
+            else return o2.price - o1.price;
         }
     }
 
